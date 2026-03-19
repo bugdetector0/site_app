@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Family Flow — Family Organisation App</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Nunito+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --primary:#6C5CE7;
+  --primary-light:#EEF0FF;
+  --primary-mid:#A89EF5;
+  --primary-dark:#4834D4;
+  --accent:#00CEC9;
+  --accent-light:#E0FAF9;
+  --green:#00B894;
+  --green-light:#E8F8F5;
+  --amber:#FDCB6E;
+  --amber-light:#FFF9EC;
+  --coral:#FF7675;
+  --bg:#FAFAFA;
+  --surface:#FFFFFF;
+  --text:#2D3436;
+  --text-2:#636E72;
+  --text-3:#B2BEC3;
+  --border:#EDF2F7;
+  --shadow-sm:0 2px 8px rgba(108,92,231,.08);
+  --shadow-md:0 8px 24px rgba(108,92,231,.12);
+  --shadow-lg:0 20px 48px rgba(108,92,231,.16);
+  --r:16px;
+  --r-sm:10px;
+  --font-display:'Nunito',sans-serif;
+  --font-body:'Nunito Sans',sans-serif;
+  --trans:200ms cubic-bezier(.4,0,.2,1);
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 2rem}
+.nav-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{font-family:var(--font-display);font-weight:900;font-size:1.25rem;color:var(--primary);display:flex;align-items:center;gap:.5rem;text-decoration:none}
+.logo-icon{width:32px;height:32px;background:var(--primary);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem}
+.nav-links{display:flex;align-items:center;gap:2rem;list-style:none}
+.nav-links a{font-size:.9rem;font-weight:600;color:var(--text-2);text-decoration:none;transition:color var(--trans)}
+.nav-links a:hover{color:var(--primary)}
+.nav-cta{background:var(--primary);color:#fff!important;padding:.5rem 1.25rem;border-radius:50px!important;transition:background var(--trans)!important}
+.nav-cta:hover{background:var(--primary-dark)!important}
+
+/* HERO */
+.hero{max-width:1100px;margin:0 auto;padding:5rem 2rem 4rem;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.hero-badge{display:inline-flex;align-items:center;gap:.5rem;background:var(--primary-light);color:var(--primary);font-family:var(--font-display);font-weight:700;font-size:.8rem;padding:.35rem 1rem;border-radius:50px;margin-bottom:1.5rem;letter-spacing:.5px}
+.hero-badge-dot{width:6px;height:6px;background:var(--primary);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(1.3)}}
+.hero h1{font-family:var(--font-display);font-size:3.2rem;font-weight:900;line-height:1.1;letter-spacing:-1px;color:var(--text);margin-bottom:1.25rem}
+.hero h1 span{color:var(--primary)}
+.hero-sub{font-size:1.1rem;color:var(--text-2);line-height:1.7;margin-bottom:2rem}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.85rem 1.75rem;border-radius:50px;font-family:var(--font-display);font-weight:700;font-size:.95rem;text-decoration:none;transition:all var(--trans);cursor:pointer;border:none}
+.btn-primary{background:var(--primary);color:#fff;box-shadow:0 4px 16px rgba(108,92,231,.3)}
+.btn-primary:hover{background:var(--primary-dark);transform:translateY(-2px);box-shadow:0 8px 24px rgba(108,92,231,.4)}
+.btn-outline{background:transparent;color:var(--primary);border:2px solid var(--primary)}
+.btn-outline:hover{background:var(--primary-light);transform:translateY(-2px)}
+
+/* HERO PHONE MOCKUP */
+.hero-visual{position:relative;display:flex;justify-content:center;align-items:center;min-height:580px}
+.phone-wrap{animation:floatPhone 4s ease-in-out infinite;filter:drop-shadow(0 32px 64px rgba(108,92,231,.28)) drop-shadow(0 8px 24px rgba(0,0,0,.18));position:relative;z-index:2}
+@keyframes floatPhone{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-14px) rotate(-2deg)}}
+.orb{position:absolute;border-radius:50%;filter:blur(70px);pointer-events:none;z-index:1}
+.orb-1{width:320px;height:320px;background:rgba(108,92,231,.18);top:-40px;right:-40px}
+.orb-2{width:220px;height:220px;background:rgba(0,206,201,.12);bottom:20px;left:-20px}
+
+/* STATS */
+.stats-bar{background:var(--primary);padding:2.5rem 2rem}
+.stats-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;text-align:center}
+.stat-num{font-family:var(--font-display);font-size:2.2rem;font-weight:900;color:#fff}
+.stat-label{font-size:.85rem;color:rgba(255,255,255,.75);margin-top:.25rem}
+
+/* SECTIONS */
+section{padding:5rem 2rem}
+.section-inner{max-width:1100px;margin:0 auto}
+.section-label{font-family:var(--font-display);font-weight:700;font-size:.8rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--primary);margin-bottom:.75rem}
+.section-title{font-family:var(--font-display);font-size:2.2rem;font-weight:900;line-height:1.15;letter-spacing:-.5px;color:var(--text);margin-bottom:1rem}
+.section-sub{font-size:1rem;color:var(--text-2);max-width:540px;line-height:1.7}
+.section-head{margin-bottom:3rem}
+
+/* FEATURES */
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.feat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1.75rem;transition:all var(--trans);opacity:0;transform:translateY(20px)}
+.feat-card.visible{opacity:1;transform:translateY(0)}
+.feat-card:hover{border-color:var(--primary-mid);box-shadow:var(--shadow-md);transform:translateY(-4px)}
+.feat-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:1rem}
+.feat-title{font-family:var(--font-display);font-weight:800;font-size:1rem;color:var(--text);margin-bottom:.5rem}
+.feat-body{font-size:.9rem;color:var(--text-2);line-height:1.6}
+.feat-tag{display:inline-block;font-size:.7rem;font-weight:700;padding:.2rem .6rem;border-radius:50px;margin-top:.75rem;font-family:var(--font-display)}
+
+/* UNIQUE */
+.unique{background:linear-gradient(135deg,#f0eeff 0%,#e8f8f5 100%)}
+.unique-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.unique-list{display:flex;flex-direction:column;gap:1.25rem}
+.unique-item{display:flex;gap:1rem;align-items:flex-start}
+.unique-bullet{width:40px;height:40px;border-radius:10px;background:var(--primary);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;margin-top:.1rem}
+.unique-item-title{font-family:var(--font-display);font-weight:800;font-size:1rem;color:var(--text);margin-bottom:.25rem}
+.unique-item-body{font-size:.9rem;color:var(--text-2);line-height:1.6}
+.unique-visual{display:flex;flex-direction:column;gap:1rem}
+.uv-card{background:#fff;border-radius:14px;padding:1.25rem 1.5rem;box-shadow:var(--shadow-sm);border:1px solid var(--border);display:flex;align-items:center;gap:1rem;transition:all var(--trans)}
+.uv-card:hover{box-shadow:var(--shadow-md);transform:translateX(4px)}
+.uv-icon{font-size:1.8rem}
+.uv-text-title{font-family:var(--font-display);font-weight:700;font-size:.9rem;color:var(--text)}
+.uv-text-sub{font-size:.8rem;color:var(--text-2)}
+
+/* TECH */
+.tech{background:var(--surface)}
+.tech-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem}
+.tech-card{border:1px solid var(--border);border-radius:var(--r-sm);padding:1.5rem;text-align:center;transition:all var(--trans)}
+.tech-card:hover{border-color:var(--primary);box-shadow:var(--shadow-sm)}
+.tech-card-icon{font-size:2rem;margin-bottom:.75rem}
+.tech-card-name{font-family:var(--font-display);font-weight:800;font-size:.95rem;color:var(--text);margin-bottom:.25rem}
+.tech-card-desc{font-size:.8rem;color:var(--text-2)}
+
+/* INCLUDED */
+.included-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.25rem}
+.inc-card{border:1px solid var(--border);border-radius:var(--r);padding:1.5rem;display:flex;gap:1rem;align-items:flex-start;background:var(--surface);transition:all var(--trans)}
+.inc-card:hover{border-color:var(--green);box-shadow:0 4px 16px rgba(0,184,148,.1)}
+.inc-check{width:36px;height:36px;background:var(--green-light);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+.inc-title{font-family:var(--font-display);font-weight:800;font-size:.95rem;color:var(--text);margin-bottom:.25rem}
+.inc-body{font-size:.85rem;color:var(--text-2);line-height:1.5}
+
+/* PRICE */
+.price-section{background:var(--primary);overflow:hidden;position:relative}
+.price-section::before{content:'';position:absolute;width:500px;height:500px;border-radius:50%;background:rgba(255,255,255,.05);top:-200px;right:-100px}
+.price-inner{max-width:800px;margin:0 auto;text-align:center;position:relative;z-index:1}
+.price-label{color:rgba(255,255,255,.7);font-size:.85rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:.75rem;font-family:var(--font-display)}
+.price-title{font-family:var(--font-display);font-size:2.4rem;font-weight:900;color:#fff;margin-bottom:1rem}
+.price-box{background:rgba(255,255,255,.1);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.2);border-radius:24px;padding:2.5rem;margin:2.5rem 0;display:inline-block;min-width:400px}
+.price-amount{font-family:var(--font-display);font-size:3.5rem;font-weight:900;color:#fff;line-height:1}
+.price-range{font-size:1rem;color:rgba(255,255,255,.7);margin-top:.5rem}
+.price-note{font-size:.9rem;color:rgba(255,255,255,.8);margin-top:1.5rem;line-height:1.6}
+.price-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:2rem}
+.btn-white{background:#fff;color:var(--primary)}
+.btn-white:hover{background:#f0eeff;transform:translateY(-2px)}
+.btn-ghost{background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.3)}
+.btn-ghost:hover{background:rgba(255,255,255,.25);transform:translateY(-2px)}
+
+/* WHERE TO BUY */
+.where-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem}
+.where-card{border:1px solid var(--border);border-radius:var(--r-sm);padding:1.5rem;background:var(--surface);transition:all var(--trans);text-decoration:none;display:block}
+.where-card:hover{border-color:var(--primary);box-shadow:var(--shadow-md);transform:translateY(-3px)}
+.where-name{font-family:var(--font-display);font-weight:800;font-size:1rem;color:var(--text);margin-bottom:.25rem}
+.where-desc{font-size:.85rem;color:var(--text-2)}
+.where-tag{display:inline-block;margin-top:.75rem;font-size:.75rem;font-weight:700;color:var(--primary);background:var(--primary-light);padding:.2rem .6rem;border-radius:50px;font-family:var(--font-display)}
+
+/* FOOTER */
+footer{background:#1a1a2e;padding:3rem 2rem}
+.footer-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.footer-logo{font-family:var(--font-display);font-weight:900;font-size:1.1rem;color:#fff}
+.footer-stack{font-size:.85rem;color:rgba(255,255,255,.5);margin-top:.25rem}
+.footer-right{font-size:.85rem;color:rgba(255,255,255,.4);text-align:right}
+
+/* SCROLL ANIM */
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.anim{opacity:0;transform:translateY(20px);transition:opacity .5s ease,transform .5s ease}
+.anim.visible{opacity:1;transform:translateY(0)}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .hero{grid-template-columns:1fr;gap:2rem;padding:3rem 1.25rem 2.5rem}
+  .hero h1{font-size:2.2rem}
+  .hero-visual{display:none}
+  .stats-inner{grid-template-columns:repeat(2,1fr)}
+  .features-grid{grid-template-columns:1fr}
+  .unique-grid{grid-template-columns:1fr}
+  .tech-grid{grid-template-columns:repeat(2,1fr)}
+  .included-grid{grid-template-columns:1fr}
+  .where-grid{grid-template-columns:1fr}
+  .nav-links{display:none}
+  .price-box{min-width:auto;width:100%}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="logo">
+      <div class="logo-icon">🏠</div>
+      My Family Flow
+    </a>
+    <ul class="nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#tech">Tech Stack</a></li>
+      <li><a href="#included">What's Included</a></li>
+      <li><a href="#price">Price</a></li>
+      <li><a href="#price" class="nav-cta">Buy Now</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="hero-badge-dot"></span>
+      FOR SALE · FULL SOURCE CODE
+    </div>
+    <h1>The family app<br><span>ready to launch</span></h1>
+    <p class="hero-sub">
+      A fully built React Native app for family organisation — shared expenses, shopping lists, tasks, and unique features like task proof with photos and QR code family joining. iOS + Android. Production ready.
+    </p>
+    <div class="hero-btns">
+      <a href="#price" class="btn btn-primary">💬 Make an offer</a>
+      <a href="#features" class="btn btn-outline">See all features</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="phone-wrap">
+      <svg width="280" height="560" viewBox="0 0 280 560" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="bodyGrad" x1="0" y1="0" x2="280" y2="560" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#2a2a2e"/>
+            <stop offset="40%" stop-color="#1a1a1e"/>
+            <stop offset="100%" stop-color="#111114"/>
+          </linearGradient>
+          <linearGradient id="edgeLeft" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#4a4a52"/>
+            <stop offset="100%" stop-color="#1a1a1e"/>
+          </linearGradient>
+          <linearGradient id="edgeRight" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#1a1a1e"/>
+            <stop offset="100%" stop-color="#3a3a42"/>
+          </linearGradient>
+          <linearGradient id="screenGrad" x1="140" y1="28" x2="140" y2="532" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#F7F6FF"/>
+            <stop offset="100%" stop-color="#EEEDF8"/>
+          </linearGradient>
+          <linearGradient id="headerGrad" x1="18" y1="72" x2="262" y2="120" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#7C6EF0"/>
+            <stop offset="100%" stop-color="#5B4AE8"/>
+          </linearGradient>
+          <linearGradient id="shineGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="white" stop-opacity="0.07"/>
+            <stop offset="100%" stop-color="white" stop-opacity="0"/>
+          </linearGradient>
+          <clipPath id="screenClip">
+            <rect x="14" y="14" width="252" height="532" rx="34"/>
+          </clipPath>
+          <clipPath id="outerClip">
+            <rect x="0" y="0" width="280" height="560" rx="48"/>
+          </clipPath>
+        </defs>
+
+        <!-- Phone body -->
+        <rect x="0" y="0" width="280" height="560" rx="48" fill="url(#bodyGrad)"/>
+
+        
+        <!-- Side buttons - volume up -->
+        <rect x="0" y="120" width="4" height="36" rx="2" fill="#3a3a42"/>
+        <rect x="0" y="120" width="2" height="36" rx="1" fill="#4e4e58"/>
+        <!-- Side buttons - volume down -->
+        <rect x="0" y="168" width="4" height="36" rx="2" fill="#3a3a42"/>
+        <rect x="0" y="168" width="2" height="36" rx="1" fill="#4e4e58"/>
+        <!-- Side buttons - power -->
+        <rect x="276" y="148" width="4" height="60" rx="2" fill="#3a3a42"/>
+        <rect x="278" y="148" width="2" height="60" rx="1" fill="#4e4e58"/>
+
+        <!-- Screen area background -->
+        <rect x="14" y="14" width="252" height="532" rx="34" fill="url(#screenGrad)"/>
+
+        <!-- Screen content clipped -->
+        <g clip-path="url(#screenClip)">
+
+          <!-- Status bar -->
+          <rect x="14" y="14" width="252" height="44" fill="#6C5CE7"/>
+          <text x="30" y="37" font-family="'Nunito Sans', sans-serif" font-size="11" font-weight="600" fill="white" opacity="0.9">9:41</text>
+          <!-- Battery icon -->
+          <rect x="228" y="30" width="22" height="10" rx="2" fill="none" stroke="white" stroke-width="1.2" opacity="0.8"/>
+          <rect x="250" y="33" width="3" height="4" rx="1" fill="white" opacity="0.6"/>
+          <rect x="229.5" y="31.5" width="14" height="7" rx="1" fill="white" opacity="0.8"/>
+          <!-- Signal dots -->
+          <circle cx="197" cy="35" r="2" fill="white" opacity="0.9"/>
+          <circle cx="205" cy="35" r="2" fill="white" opacity="0.9"/>
+          <circle cx="213" cy="35" r="2" fill="white" opacity="0.9"/>
+
+          <!-- Dynamic island / notch -->
+          <rect x="100" y="20" width="80" height="22" rx="11" fill="#0d0d10"/>
+
+          <!-- App header -->
+          <rect x="14" y="58" width="252" height="68" fill="url(#headerGrad)"/>
+          <text x="30" y="82" font-family="'Nunito', sans-serif" font-size="13" font-weight="800" fill="white">🏠 Family Flow</text>
+          <text x="30" y="100" font-family="'Nunito Sans', sans-serif" font-size="10" fill="white" opacity="0.75">Silva Family · 4 members</text>
+          <!-- Avatar dots -->
+          <circle cx="216" cy="86" r="14" fill="white" opacity="0.15"/>
+          <text x="216" y="91" font-family="sans-serif" font-size="14" text-anchor="middle" fill="white">👨‍👩‍👧‍👦</text>
+
+          <!-- Task card 1 -->
+          <rect x="18" y="138" width="244" height="56" rx="12" fill="white"/>
+          <rect x="18" y="138" width="244" height="56" rx="12" fill="none" stroke="#EDF2F7" stroke-width="1"/>
+          <rect x="30" y="152" width="28" height="28" rx="8" fill="#EEF0FF"/>
+          <text x="44" y="170" font-family="sans-serif" font-size="14" text-anchor="middle">✅</text>
+          <text x="68" y="156" font-family="'Nunito', sans-serif" font-size="11" font-weight="700" fill="#2D3436">Take out the trash</text>
+          <text x="68" y="172" font-family="'Nunito Sans', sans-serif" font-size="9" fill="#636E72">Assigned to João</text>
+          <!-- Done badge -->
+          <rect x="196" y="154" width="52" height="18" rx="9" fill="#E8F8F5"/>
+          <text x="222" y="167" font-family="'Nunito', sans-serif" font-size="9" font-weight="700" fill="#00B894" text-anchor="middle">Done</text>
+
+          <!-- Task card 2 -->
+          <rect x="18" y="202" width="244" height="56" rx="12" fill="white"/>
+          <rect x="18" y="202" width="244" height="56" rx="12" fill="none" stroke="#EDF2F7" stroke-width="1"/>
+          <rect x="30" y="216" width="28" height="28" rx="8" fill="#FFF9EC"/>
+          <text x="44" y="234" font-family="sans-serif" font-size="14" text-anchor="middle">🛒</text>
+          <text x="68" y="220" font-family="'Nunito', sans-serif" font-size="11" font-weight="700" fill="#2D3436">Weekly groceries</text>
+          <text x="68" y="236" font-family="'Nunito Sans', sans-serif" font-size="9" fill="#636E72">8 items · Supermarket</text>
+          <rect x="193" y="218" width="55" height="18" rx="9" fill="#E0FAF9"/>
+          <text x="220" y="231" font-family="'Nunito', sans-serif" font-size="9" font-weight="700" fill="#00888a" text-anchor="middle">Active</text>
+
+          <!-- Task card 3 -->
+          <rect x="18" y="266" width="244" height="56" rx="12" fill="white"/>
+          <rect x="18" y="266" width="244" height="56" rx="12" fill="none" stroke="#EDF2F7" stroke-width="1"/>
+          <rect x="30" y="280" width="28" height="28" rx="8" fill="#E8F8F5"/>
+          <text x="44" y="298" font-family="sans-serif" font-size="14" text-anchor="middle">💶</text>
+          <text x="68" y="284" font-family="'Nunito', sans-serif" font-size="11" font-weight="700" fill="#2D3436">Electric bill</text>
+          <text x="68" y="300" font-family="'Nunito Sans', sans-serif" font-size="9" fill="#636E72">€87.50 · Split 4 ways</text>
+          <rect x="191" y="282" width="57" height="18" rx="9" fill="#FFF9EC"/>
+          <text x="220" y="295" font-family="'Nunito', sans-serif" font-size="9" font-weight="700" fill="#b7791f" text-anchor="middle">Pending</text>
+
+          <!-- Task card 4 - proof -->
+          <rect x="18" y="330" width="244" height="56" rx="12" fill="white"/>
+          <rect x="18" y="330" width="244" height="56" rx="12" fill="none" stroke="#EDF2F7" stroke-width="1"/>
+          <rect x="30" y="344" width="28" height="28" rx="8" fill="#FFE8E8"/>
+          <text x="44" y="362" font-family="sans-serif" font-size="14" text-anchor="middle">📸</text>
+          <text x="68" y="348" font-family="'Nunito', sans-serif" font-size="11" font-weight="700" fill="#2D3436">Task proof photo</text>
+          <text x="68" y="364" font-family="'Nunito Sans', sans-serif" font-size="9" fill="#636E72">Maria sent a photo</text>
+          <rect x="208" y="346" width="40" height="18" rx="9" fill="#E8F8F5"/>
+          <text x="228" y="359" font-family="'Nunito', sans-serif" font-size="9" font-weight="700" fill="#00B894" text-anchor="middle">✓ OK</text>
+
+          <!-- QR Card -->
+          <rect x="18" y="394" width="244" height="56" rx="12" fill="#6C5CE7"/>
+          <text x="30" y="418" font-family="'Nunito', sans-serif" font-size="11" font-weight="800" fill="white">📱 Invite family via QR code</text>
+          <text x="30" y="435" font-family="'Nunito Sans', sans-serif" font-size="9" fill="rgba(255,255,255,0.75)">Scan to join instantly</text>
+          <!-- Mini QR visual -->
+          <rect x="212" y="402" width="36" height="36" rx="6" fill="white" opacity="0.15"/>
+          <rect x="216" y="406" width="11" height="11" rx="2" fill="white" opacity="0.6"/>
+          <rect x="230" y="406" width="11" height="11" rx="2" fill="white" opacity="0.6"/>
+          <rect x="216" y="420" width="11" height="11" rx="2" fill="white" opacity="0.6"/>
+          <rect x="230" y="420" width="5" height="5" rx="1" fill="white" opacity="0.6"/>
+          <rect x="237" y="420" width="5" height="5" rx="1" fill="white" opacity="0.6"/>
+
+          <!-- Bottom nav bar -->
+          <rect x="14" y="462" width="252" height="84" fill="white"/>
+          <rect x="14" y="462" width="252" height="1" fill="#EDF2F7"/>
+          <!-- Nav icons -->
+          <text x="57" y="492" font-family="sans-serif" font-size="18" text-anchor="middle">📋</text>
+          <text x="57" y="507" font-family="'Nunito', sans-serif" font-size="8" font-weight="700" fill="#6C5CE7" text-anchor="middle">Tasks</text>
+          <text x="113" y="492" font-family="sans-serif" font-size="18" text-anchor="middle">🛒</text>
+          <text x="113" y="507" font-family="'Nunito', sans-serif" font-size="8" fill="#636E72" text-anchor="middle">Shop</text>
+          <text x="167" y="492" font-family="sans-serif" font-size="18" text-anchor="middle">💶</text>
+          <text x="167" y="507" font-family="'Nunito', sans-serif" font-size="8" fill="#636E72" text-anchor="middle">Expenses</text>
+          <text x="223" y="492" font-family="sans-serif" font-size="18" text-anchor="middle">👤</text>
+          <text x="223" y="507" font-family="'Nunito', sans-serif" font-size="8" fill="#636E72" text-anchor="middle">Family</text>
+          <!-- Active tab indicator -->
+          <rect x="36" y="460" width="42" height="2" rx="1" fill="#6C5CE7"/>
+          <!-- Home indicator -->
+          <rect x="105" y="536" width="70" height="4" rx="2" fill="#2D3436" opacity="0.2"/>
+
+        </g>
+
+        <!-- Screen glass shine overlay -->
+        <rect x="14" y="14" width="252" height="532" rx="34" fill="url(#shineGrad)"/>
+
+        <!-- Screen edge/bezel -->
+        <rect x="14" y="14" width="252" height="532" rx="34" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1.5"/>
+
+        <!-- Outer phone edge highlight -->
+        <rect x="0.75" y="0.75" width="278.5" height="558.5" rx="47.5" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="anim">
+      <div class="stat-num">2</div>
+      <div class="stat-label">Platforms (iOS + Android)</div>
+    </div>
+    <div class="anim" style="transition-delay:.1s">
+      <div class="stat-num">9+</div>
+      <div class="stat-label">Core features built</div>
+    </div>
+    <div class="anim" style="transition-delay:.2s">
+      <div class="stat-num">100%</div>
+      <div class="stat-label">Production ready</div>
+    </div>
+    <div class="anim" style="transition-delay:.3s">
+      <div class="stat-num">RLS</div>
+      <div class="stat-label">Security enabled</div>
+    </div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section id="features" style="background:var(--bg)">
+  <div class="section-inner">
+    <div class="section-head anim">
+      <div class="section-label">Features</div>
+      <h2 class="section-title">Everything a family needs,<br>already built</h2>
+      <p class="section-sub">No cutting corners. Every feature is fully implemented and working.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feat-card anim" style="transition-delay:.05s">
+        <div class="feat-icon" style="background:#EEF0FF">📋</div>
+        <div class="feat-title">Shared Task Management</div>
+        <div class="feat-body">Create, assign and track tasks across all family members with due dates and priorities.</div>
+        <span class="feat-tag" style="background:#EEF0FF;color:var(--primary)">Core feature</span>
+      </div>
+      <div class="feat-card anim" style="transition-delay:.1s">
+        <div class="feat-icon" style="background:#E8F8F5">✅</div>
+        <div class="feat-title">Task Proof with Photo</div>
+        <div class="feat-body">Members submit a photo as proof of a completed task. A unique feature most family apps don't have.</div>
+        <span class="feat-tag" style="background:var(--green-light);color:var(--green)">⭐ Unique</span>
+      </div>
+      <div class="feat-card anim" style="transition-delay:.15s">
+        <div class="feat-icon" style="background:#FFF9EC">🛒</div>
+        <div class="feat-title">Shopping Lists</div>
+        <div class="feat-body">Real-time shared shopping lists, organised by category. Multiple lists supported.</div>
+        <span class="feat-tag" style="background:#EEF0FF;color:var(--primary)">Core feature</span>
+      </div>
+      <div class="feat-card anim" style="transition-delay:.2s">
+        <div class="feat-icon" style="background:#E0FAF9">💶</div>
+        <div class="feat-title">Expense Tracking</div>
+        <div class="feat-body">Log, categorise and split family expenses. Full history and per-member breakdown.</div>
+        <span class="feat-tag" style="background:#EEF0FF;color:var(--primary)">Core feature</span>
+      </div>
+      <div class="feat-card anim" style="transition-delay:.25s">
+        <div class="feat-icon" style="background:#FFF9EC">📸</div>
+        <div class="feat-title">Receipt Photo Upload</div>
+        <div class="feat-body">Attach photos of receipts to expenses. Stored securely in Supabase Storage.</div>
+        <span class="feat-tag" style="background:var(--green-light);color:var(--green)">⭐ Unique</span>
+      </div>
+      <div class="feat-card anim" style="transition-delay:.3s">
+        <div class="feat-icon" style="background:#EEF0FF">📱</div>
+        <div class="feat-title">QR Code Family Join</div>
+        <div class="feat-body">Instant family onboarding via QR code scan. No invite links or email setup needed.</div>
+        <span class="feat-tag" style="background:var(--green-light);color:var(--green)">⭐ Unique</span>
+      </div>
+      <div class="feat-card anim" style="transition-delay:.35s">
+        <div class="feat-icon" style="background:#E0FAF9">🔐</div>
+        <div class="feat-title">Google + Email Login</div>
+        <div class="feat-body">Full authentication with Google OAuth and Email/Password via Supabase Auth.</div>
+        <span class="feat-tag" style="background:#EEF0FF;color:var(--primary)">Core feature</span>
+      </div>
+      <div class="feat-card anim" style="transition-delay:.4s">
+        <div class="feat-icon" style="background:#E8F8F5">🛡️</div>
+        <div class="feat-title">Row Level Security</div>
+        <div class="feat-body">RLS is fully configured — each family only ever sees their own data. Security done right.</div>
+        <span class="feat-tag" style="background:var(--green-light);color:var(--green)">Security</span>
+      </div>
+      <div class="feat-card anim" style="transition-delay:.45s">
+        <div class="feat-icon" style="background:#FFF9EC">🌍</div>
+        <div class="feat-title">Cross-platform</div>
+        <div class="feat-body">Single React Native codebase runs natively on both iOS and Android. No duplication.</div>
+        <span class="feat-tag" style="background:#EEF0FF;color:var(--primary)">Core feature</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- UNIQUE DIFFERENTIATORS -->
+<section class="unique">
+  <div class="section-inner">
+    <div class="unique-grid">
+      <div class="anim">
+        <div class="section-label">Differentiators</div>
+        <h2 class="section-title">What makes this app stand out</h2>
+        <p class="section-sub" style="margin-bottom:2rem">Three features that most family apps — including the big ones — simply don't have.</p>
+        <div class="unique-list">
+          <div class="unique-item">
+            <div class="unique-bullet">✅</div>
+            <div>
+              <div class="unique-item-title">Task proof with photo</div>
+              <div class="unique-item-body">Family members can't just mark a task done — they submit a photo. Great for parents tracking chores and responsibilities.</div>
+            </div>
+          </div>
+          <div class="unique-item">
+            <div class="unique-bullet">📱</div>
+            <div>
+              <div class="unique-item-title">QR code family onboarding</div>
+              <div class="unique-item-body">Show a QR code, someone scans it, they're instantly in the family group. Frictionless onboarding that delights users.</div>
+            </div>
+          </div>
+          <div class="unique-item">
+            <div class="unique-bullet">📸</div>
+            <div>
+              <div class="unique-item-title">Receipt photos on expenses</div>
+              <div class="unique-item-body">Attach a photo of the receipt to any expense. No more "trust me, it cost that much".</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="unique-visual anim" style="transition-delay:.15s">
+        <div class="uv-card">
+          <div class="uv-icon">🏆</div>
+          <div>
+            <div class="uv-text-title">Production-ready codebase</div>
+            <div class="uv-text-sub">Clean, well-structured React Native — any developer can pick it up</div>
+          </div>
+        </div>
+        <div class="uv-card">
+          <div class="uv-icon">⚡</div>
+          <div>
+            <div class="uv-text-title">Supabase backend fully configured</div>
+            <div class="uv-text-sub">Auth, database, storage, RLS — all set up and ready to go</div>
+          </div>
+        </div>
+        <div class="uv-card">
+          <div class="uv-icon">🎨</div>
+          <div>
+            <div class="uv-text-title">Brand identity included</div>
+            <div class="uv-text-sub">My Family Flow name, logo and assets — ready to use or rebrand</div>
+          </div>
+        </div>
+        <div class="uv-card">
+          <div class="uv-icon">🚀</div>
+          <div>
+            <div class="uv-text-title">Ready to publish to both stores</div>
+            <div class="uv-text-sub">No additional development needed — list it on the App Store and Google Play</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TECH STACK -->
+<section id="tech" style="background:var(--surface)">
+  <div class="section-inner">
+    <div class="section-head anim">
+      <div class="section-label">Tech Stack</div>
+      <h2 class="section-title">Modern, clean, easy to maintain</h2>
+      <p class="section-sub">Technologies any React Native developer will be comfortable with.</p>
+    </div>
+    <div class="tech-grid">
+      <div class="tech-card anim">
+        <div class="tech-card-icon">⚛️</div>
+        <div class="tech-card-name">React Native</div>
+        <div class="tech-card-desc">Single codebase for iOS & Android</div>
+      </div>
+      <div class="tech-card anim" style="transition-delay:.1s">
+        <div class="tech-card-icon">🟩</div>
+        <div class="tech-card-name">Supabase</div>
+        <div class="tech-card-desc">Database, Auth & Storage</div>
+      </div>
+      <div class="tech-card anim" style="transition-delay:.2s">
+        <div class="tech-card-icon">🔑</div>
+        <div class="tech-card-name">Supabase Auth</div>
+        <div class="tech-card-desc">Google OAuth + Email/Password</div>
+      </div>
+      <div class="tech-card anim" style="transition-delay:.3s">
+        <div class="tech-card-icon">🛡️</div>
+        <div class="tech-card-name">Row Level Security</div>
+        <div class="tech-card-desc">Fully configured per table</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT'S INCLUDED -->
+<section id="included" style="background:var(--bg)">
+  <div class="section-inner">
+    <div class="section-head anim">
+      <div class="section-label">What's Included</div>
+      <h2 class="section-title">Everything you need to launch</h2>
+      <p class="section-sub">Full transfer of ownership — you get it all.</p>
+    </div>
+    <div class="included-grid">
+      <div class="inc-card anim">
+        <div class="inc-check">📦</div>
+        <div>
+          <div class="inc-title">Complete source code</div>
+          <div class="inc-body">Full React Native project — all screens, components, navigation and business logic. Clean and ready to run.</div>
+        </div>
+      </div>
+      <div class="inc-card anim" style="transition-delay:.1s">
+        <div class="inc-check">🟩</div>
+        <div>
+          <div class="inc-title">Supabase project transfer</div>
+          <div class="inc-body">Full Supabase project — database schema, all tables, RLS policies and storage buckets already configured.</div>
+        </div>
+      </div>
+      <div class="inc-card anim" style="transition-delay:.2s">
+        <div class="inc-check">🎨</div>
+        <div>
+          <div class="inc-title">Brand & logo assets</div>
+          <div class="inc-body">My Family Flow logo and all brand assets. Use as-is or rebrand entirely — your choice.</div>
+        </div>
+      </div>
+      <div class="inc-card anim" style="transition-delay:.3s">
+        <div class="inc-check">📄</div>
+        <div>
+          <div class="inc-title">Setup documentation</div>
+          <div class="inc-body">Clear instructions to run, build, and deploy the app. No guesswork needed.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICE -->
+<section id="price" class="price-section">
+  <div class="section-inner price-inner">
+    <div class="price-label anim">Asking Price</div>
+    <h2 class="price-title anim">Ready to make a deal?</h2>
+    <div class="price-box anim">
+      <div class="price-amount">€2,500 – €5,000</div>
+      <div class="price-range">One-time payment · Full ownership transfer</div>
+    </div>
+    <p class="price-note anim">
+      Building this app from scratch would cost <strong style="color:#fff">€15,000–€30,000</strong> in development time.<br>
+      You're getting a production-ready product at a fraction of that cost.
+    </p>
+    <div class="price-btns anim">
+      <a href="/cdn-cgi/l/email-protection#ddbeb2b3a9bcbea99db0a4bbbcb0b4b1a4bbb1b2aaf3bcadad" class="btn btn-white">💬 Contact to buy</a>
+      <a href="https://flippa.com" target="_blank" class="btn btn-ghost">View on Flippa →</a>
+    </div>
+  </div>
+</section>
+
+<!-- WHERE TO FIND -->
+<section style="background:var(--surface)">
+  <div class="section-inner">
+    <div class="section-head anim">
+      <div class="section-label">Where to buy</div>
+      <h2 class="section-title">Find this listing on</h2>
+    </div>
+    <div class="where-grid">
+      <a href="https://flippa.com" target="_blank" class="where-card anim">
+        <div style="font-size:1.5rem;margin-bottom:.5rem">🔄</div>
+        <div class="where-name">Flippa</div>
+        <div class="where-desc">World's largest marketplace for buying and selling apps, sites and online businesses.</div>
+        <span class="where-tag">Recommended</span>
+      </a>
+      <a href="/cdn-cgi/l/email-protection#583b37362c393b2c1835213e39353134213e34372f76392828" class="where-card anim" style="transition-delay:.1s">
+        <div style="font-size:1.5rem;margin-bottom:.5rem">✉️</div>
+        <div class="where-name">Direct Contact</div>
+        <div class="where-desc">Prefer to deal directly? Reach out by email for a faster, simpler negotiation.</div>
+        <span class="where-tag">Fastest</span>
+      </a>
+      <a href="https://acquire.com" target="_blank" class="where-card anim" style="transition-delay:.2s">
+        <div style="font-size:1.5rem;margin-bottom:.5rem">📈</div>
+        <div class="where-name">Acquire.com</div>
+        <div class="where-desc">Premium marketplace for digital products and startups with serious buyers.</div>
+        <span class="where-tag">Alternative</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">🏠 My Family Flow</div>
+      <div class="footer-stack">React Native · Supabase · iOS & Android</div>
+    </div>
+    <div class="footer-right">
+      Full source code for sale<br>
+      Serious inquiries only
+    </div>
+  </div>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+
+document.querySelectorAll('.anim, .feat-card').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
